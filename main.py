@@ -13,7 +13,7 @@ def get_season(now):
              ('🌷spring', (date(Y, 3, 1), date(Y, 5, 30))),
              ('🌞summer', (date(Y, 6, 1), date(Y, 8, 31))),
              ('🍂fall', (date(Y, 9, 1), date(Y, 11, 30))),
-             ('❄️winter', (date(Y, 12, 1), date(Y, 12, 31)))]
+             ('🏂winter', (date(Y, 12, 1), date(Y, 12, 31)))]
   if isinstance(now, datetime):
     now = now.date()
   now = now.replace(year=Y)
