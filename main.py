@@ -120,23 +120,25 @@ def get_current_temperature(lat, lon):
     # NWS API endpoint for the weather station based on lat/lon
     url = f"https://api.weather.gov/points/{lat},{lon}"
     
+    headers = {
+        'User-Agent': 'Season Evaluator 1.0',
+    }
+    
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
         initial_data = response.json()
-
         forecast_url = initial_data['properties']['forecast']
-        forecast_response = requests.get(forecast_url)
-        data = forecast_response.json()
+        forecast_response = requests.get(forecast_url, headers=headers)
+        forecast_data = forecast_response.json()
         
-        for period in data['properties']['periods']:
+        for period in forecast_data['properties']['periods']:
             if period['isDaytime']:  # Assuming we're interested in daytime temperature
                 return period['temperature']
         print("No daytime temperature found.")
         return None
 
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         print(f"Error fetching weather data for lat: {lat}, lon: {lon}.")
-        print(e)
         return None
 
 def check_weather_for_all_regions(season):
@@ -164,7 +166,7 @@ def build_embed(cur_season, region_weather_status):
     
     embed = Embed(
       title="Weather Results",
-      description=f"Weather comparison for the {cur_season} season across the U.S.",
+      description=f"Temperature check for the {cur_season} season across the U.S.",
       color=0x0000FF,
       )
     
@@ -174,12 +176,11 @@ def build_embed(cur_season, region_weather_status):
         for city, temp, status in statuses:
             total += 1
             match += status
-            embed.add_field(name=" ", value=f"{city}: {temp}°F - {'✅' if status else '❌'}")
+            embed.add_field(name=" ", value=f"{city}: {temp}°F {'✅' if status else '❌'}", inline=True)
     match_rate = match / total * 100
-    embed.add_field(name="Result", value=f"{match_rate}%")
+    embed.add_field(name="Result", value=f"{round(match_rate, 2)}%")
     
     return embed, match / total
-
 
 @slash_command(name="season-wtf",
                description="Update channel name to current season")
