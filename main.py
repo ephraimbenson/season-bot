@@ -8,11 +8,12 @@ DISCORD_BOT_TOKEN = os.environ.get('DISCORD_BOT_TOKEN')
 
 def get_season(now):
   Y = 2000  # dummy leap year to allow input XXXX-02-29 (leap day)
-  seasons = [('❄️winter', (date(Y, 1, 1), date(Y, 3, 20))),
-             ('🌷spring', (date(Y, 3, 21), date(Y, 6, 20))),
-             ('🌞summer', (date(Y, 6, 21), date(Y, 9, 22))),
-             ('🍂fall', (date(Y, 9, 23), date(Y, 12, 20))),
-             ('❄️winter', (date(Y, 12, 21), date(Y, 12, 31)))]
+  # in this house we subscribe to the quarter system 
+  seasons = [('❄️winter', (date(Y, 1, 1), date(Y, 2, 29))),
+             ('🌷spring', (date(Y, 3, 1), date(Y, 5, 30))),
+             ('🌞summer', (date(Y, 6, 1), date(Y, 8, 31))),
+             ('🍂fall', (date(Y, 9, 1), date(Y, 11, 30))),
+             ('❄️winter', (date(Y, 12, 1), date(Y, 12, 31)))]
   if isinstance(now, datetime):
     now = now.date()
   now = now.replace(year=Y)
