@@ -23,7 +23,7 @@ SEASONS_VIBE = [('🏂winter', (date(Y, 1, 1), date(Y, 2, 29))),
 
 def get_season(now, username):
     seasons = SEASONS_ASTRO
-    if username == "thitizax":
+    if username != "magnificentmuppet":
         seasons = SEASONS_VIBE
 
     if isinstance(now, datetime):
